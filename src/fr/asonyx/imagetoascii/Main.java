@@ -2,8 +2,7 @@ package fr.asonyx.imagetoascii;
 
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -92,6 +91,26 @@ public class Main {
             y += shiftAmount;
         }
 
-        // TODO : Printing the result of the StringBuilder into a file of the same name than the original image file, but with *.txt instead of *.png / *.jpg / *.gif
+        // Printing the result to the console
+        System.out.println(sb  + "\n");
+
+        try {
+            // Creating the instance of the new file
+            File outputFile = new File(file.getParent() + "/" + file.getName().substring(0, file.getName().indexOf('.')) + ".txt");
+
+            // Create the file
+            outputFile.createNewFile();
+
+            // Create an output stream for write in the file
+            BufferedWriter writer = new BufferedWriter(new FileWriter(outputFile));
+
+            // Write the content of sb to the file
+            writer.write(sb.toString());
+
+            System.out.println("Content was saved to " + outputFile.getPath());
+        } catch (IOException e) {
+            // If an error happened
+            System.err.println("Error, can't write to the output file ! ( " + e.getMessage() + " )");
+        }
     }
 }
